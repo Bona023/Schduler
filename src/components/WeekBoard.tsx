@@ -4,23 +4,30 @@ import { ITodo } from "../atoms";
 import DayCard from "./DayCard";
 
 const Board = styled.div`
-    width: 160px;
-    height: 270px;
-    border: 1px solid blue;
+    width: 180px;
+    height: 300px;
+    background-color: ${(props) => props.theme.boardBg};
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    margin-right: 2px;
 `;
 const BoardTitle = styled.div`
     width: 100%;
-    background-color: yellow;
+    background-color: transparent;
+    color: ${(props) => props.theme.boardText};
+    border-bottom: 2px solid ${(props) => props.theme.boardText};
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 600;
     padding: 5px 0;
 `;
-const TodoUl = styled.ul`
+const TodoBox = styled.div`
     width: 100%;
+    height: 100%;
+    background-color: transparent;
+    padding: 10px 3px;
 `;
 
 interface IBoardProps {
@@ -34,7 +41,7 @@ function WeekBoard({ toDos, boardId }: IBoardProps) {
             {(provided) => (
                 <Board>
                     <BoardTitle>{boardId}</BoardTitle>
-                    <TodoUl
+                    <TodoBox
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
@@ -45,7 +52,7 @@ function WeekBoard({ toDos, boardId }: IBoardProps) {
                                 key={todo.id}
                             />
                         ))}
-                    </TodoUl>
+                    </TodoBox>
                     {provided.placeholder}
                 </Board>
             )}

@@ -13,7 +13,7 @@ type IToDoState = {
 };
 
 export const toDoState = atom<IToDoState>({
-    key: "todoList",
+    key: "weeklyToDos",
     default: {
         Sun: [],
         Mon: [],
