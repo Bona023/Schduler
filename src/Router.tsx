@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import Root from "./Root";
 import WeeklyScheduler from "./screen/WeeklyScheduler";
 import Home from "./screen/Home";
@@ -6,7 +6,7 @@ import NotFound from "./screen/NotFound";
 import TodayScheduler from "./screen/TodayScheduler";
 import MonthlyScheduler from "./screen/MonthlyScheduler";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: "/",
         element: <Root />,

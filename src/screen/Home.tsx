@@ -1,5 +1,11 @@
+import { Container, Title } from "./WeeklyScheduler";
+
 function Home() {
-    return <h1>Home</h1>;
+    return (
+        <Container>
+            <Title>스케줄러를 선택해 주세요!</Title>
+        </Container>
+    );
 }
 
 export default Home;
