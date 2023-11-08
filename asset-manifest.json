@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/Scheduler/static/js/main.5e84455d.js",
+    "static/media/error404.png": "/Scheduler/static/media/error404.cb99954c86db74d62cf6.png",
+    "index.html": "/Scheduler/index.html",
+    "main.5e84455d.js.map": "/Scheduler/static/js/main.5e84455d.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.5e84455d.js"
+  ]
+}
