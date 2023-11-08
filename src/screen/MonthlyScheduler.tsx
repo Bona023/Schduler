@@ -1,10 +1,10 @@
-import { Title } from "./WeeklyScheduler";
+import { Container, Title } from "./WeeklyScheduler";
 
 function MonthlyScheduler() {
     return (
-        <>
+        <Container>
             <Title>Monthly Scheduler</Title>
-        </>
+        </Container>
     );
 }
 

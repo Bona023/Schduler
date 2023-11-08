@@ -38,16 +38,19 @@ const LinkBox = styled.div`
     padding: 3px 10px;
     margin-right: 10px;
     border-bottom: 3px solid ${(props) => props.theme.titleText};
+    &:hover {
+        border-bottom: 3px solid ${(props) => props.theme.accentColor};
+        transition: all 2s ease-in-out;
+    }
 `;
 const StyledLink = styled(Link)`
     color: ${(props) => props.theme.titleText};
     font-size: 24px;
     font-weight: 600;
-    &:hover {
-        cursor: pointer;
-    }
+    &:hover,
     &:active,
     &:focus {
+        cursor: pointer;
         color: ${(props) => props.theme.accentColor};
     }
 `;

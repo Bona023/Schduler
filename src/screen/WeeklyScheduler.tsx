@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import trashBinImg from "../image/trashbin.png";
 
-const Container = styled.div`
+export const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;

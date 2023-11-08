@@ -20,7 +20,7 @@ export const darkTheme: DefaultTheme = {
     bodyBg: "#2f3640",
     border: "#485460",
     titleText: "#f5f6fa",
-    accentColor: "#f53b57",
+    accentColor: "#fff200",
     btnBg: "#cd84f1",
     btnText: "#192a56",
     btnBgRev: "#dff9fb",

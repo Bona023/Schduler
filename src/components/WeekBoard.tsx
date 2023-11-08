@@ -3,6 +3,15 @@ import styled from "styled-components";
 import { ITodo } from "../atoms";
 import DayCard from "./DayCard";
 
+interface ITodoBoxProps {
+    $isDraggingOver: boolean;
+    $isDraggingFromThisWith: boolean;
+}
+interface IBoardProps {
+    boardId: string;
+    toDos: ITodo[];
+}
+
 const Board = styled.div`
     width: 180px;
     height: 300px;
@@ -23,25 +32,22 @@ const BoardTitle = styled.div`
     font-weight: 600;
     padding: 5px 0;
 `;
-const TodoBox = styled.div`
+const TodoBox = styled.div<ITodoBoxProps>`
     width: 100%;
     height: 100%;
-    background-color: transparent;
+    background-color: ${(props) => (props.$isDraggingOver ? "rgba(224, 86, 253,0.6)" : props.$isDraggingFromThisWith ? "rgba(126, 214, 223,0.8)" : "transparent")};
     padding: 10px 3px;
 `;
-
-interface IBoardProps {
-    boardId: string;
-    toDos: ITodo[];
-}
 
 function WeekBoard({ toDos, boardId }: IBoardProps) {
     return (
         <Droppable droppableId={boardId}>
-            {(provided) => (
+            {(provided, info) => (
                 <Board>
                     <BoardTitle>{boardId}</BoardTitle>
                     <TodoBox
+                        $isDraggingOver={info.isDraggingOver}
+                        $isDraggingFromThisWith={Boolean(info.draggingFromThisWith)}
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
