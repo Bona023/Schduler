@@ -8,9 +8,9 @@ export interface ITodo {
     text: string;
 }
 
-type IToDoState = {
+interface IToDoState {
     [key: string]: ITodo[];
-};
+}
 
 export const toDoState = atom<IToDoState>({
     key: "weeklyToDos",
@@ -24,4 +24,9 @@ export const toDoState = atom<IToDoState>({
         Sat: [],
     },
     effects_UNSTABLE: [persistAtom],
+});
+
+export const modeState = atom({
+    key: "themeMode",
+    default: false,
 });

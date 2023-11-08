@@ -1,94 +1,20 @@
 import React from "react";
-import { styled, createGlobalStyle } from "styled-components";
-import { Helmet } from "react-helmet";
+import { styled } from "styled-components";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
-import { toDoState } from "./atoms";
-import WeekBoard from "./components/WeekBoard";
+import { toDoState } from "../atoms";
+import WeekBoard from "../components/WeekBoard";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import trashBinImg from "./image/trashbin.png";
+import trashBinImg from "../image/trashbin.png";
 
-const GlobalStyle = createGlobalStyle`  
-  html, body, div, span, applet, object, iframe,
-  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-  a, abbr, acronym, address, big, cite, code,
-  del, dfn, em, img, ins, kbd, q, s, samp,
-  small, strike, strong, sub, sup, tt, var,
-  b, u, i, center,
-  dl, dt, dd, menu, ol, ul, li,
-  fieldset, form, label, legend,
-  table, caption, tbody, tfoot, thead, tr, th, td,
-  article, aside, canvas, details, embed,
-  figure, figcaption, footer, header, hgroup,
-  main, menu, nav, output, ruby, section, summary,
-  time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-  }
-  /* HTML5 display-role reset for older browsers */
-  article, aside, details, figcaption, figure,
-  footer, header, hgroup, main, menu, nav, section {
-    display: block;
-  }
-  /* HTML5 hidden-attribute fix for newer browsers */
-  *[hidden] {
-      display: none;
-  }
-  *{font-family:'Gamja Flower', sans-serif;}
-  body {
-    line-height: 1;
-    font-family:'Gamja Flower', sans-serif;
-    background-color: ${(props) => props.theme.bodyBg};
-  }
-  menu, ol, ul {
-    list-style: none;
-  }
-  blockquote, q {
-    quotes: none;
-  }
-  blockquote:before, blockquote:after,
-  q:before, q:after {
-    content: '';
-    content: none;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-  *{
-    box-sizing: border-box;
-  }
-  body{
-  }
-  a{
-    text-decoration: none;
-  }
-  select{
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-`;
-const Nav = styled.nav`
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: greenyellow;
-`;
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
-const Title = styled.h1`
+export const Title = styled.h1`
     font-size: 50px;
     font-weight: 700;
     text-shadow: 1px 1px 3px #636e72;
@@ -212,7 +138,7 @@ interface IToDoForm {
     id: number;
 }
 
-function App() {
+function WeeklyScheduler() {
     const [toDos, setToDos] = useRecoilState(toDoState);
     const {
         register,
@@ -274,73 +200,63 @@ function App() {
         setValue("todoText", "");
     };
     return (
-        <>
-            <Helmet>
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Roboto+Mono:wght@500&display=swap"
-                    rel="stylesheet"
-                ></link>
-            </Helmet>
-            <GlobalStyle />
-            <Container>
-                <Nav></Nav>
-                <Title>Weekly Scheduler</Title>
-                <DragDropContext onDragEnd={dragEnd}>
-                    <FormBox>
-                        <Form onSubmit={handleSubmit(onValid)}>
-                            <DaySelect {...register("day")}>
-                                <DayOption value="Sun">일요일</DayOption>
-                                <DayOption value="Mon">월요일</DayOption>
-                                <DayOption value="Tue">화요일</DayOption>
-                                <DayOption value="Wen">수요일</DayOption>
-                                <DayOption value="Thu">목요일</DayOption>
-                                <DayOption value="Fri">금요일</DayOption>
-                                <DayOption value="Sat">토요일</DayOption>
-                            </DaySelect>
-                            <FormSpan>에 할일 :</FormSpan>
-                            <InputBox>
-                                <ToDoInput
-                                    {...register("todoText", { required: "ERROR : 추가할 내용을 적어주세요!" })}
-                                    placeholder="여기에 적어주세요~"
-                                    type="text"
-                                />
-                                <ErrorMsg>{errors?.todoText?.message}</ErrorMsg>
-                            </InputBox>
-                            <AddBtn
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.8 }}
-                            >
-                                추가
-                            </AddBtn>
-                        </Form>
-                        <Droppable droppableId="delete">
-                            {(provided) => (
-                                <TrashBin
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                >
-                                    <img
-                                        src={trashBinImg}
-                                        alt="trashBin"
-                                    />
-                                </TrashBin>
-                            )}
-                        </Droppable>
-                    </FormBox>
-                    <DelMsg>ToDo를 삭제하려면 쓰레기통 이미지 위로 드레그 해주세요!!</DelMsg>
-                    <Weekly>
-                        {Object.keys(toDos).map((boardId) => (
-                            <WeekBoard
-                                key={boardId}
-                                toDos={toDos[boardId]}
-                                boardId={boardId}
+        <Container>
+            <Title>Weekly Scheduler</Title>
+            <DragDropContext onDragEnd={dragEnd}>
+                <FormBox>
+                    <Form onSubmit={handleSubmit(onValid)}>
+                        <DaySelect {...register("day")}>
+                            <DayOption value="Sun">일요일</DayOption>
+                            <DayOption value="Mon">월요일</DayOption>
+                            <DayOption value="Tue">화요일</DayOption>
+                            <DayOption value="Wen">수요일</DayOption>
+                            <DayOption value="Thu">목요일</DayOption>
+                            <DayOption value="Fri">금요일</DayOption>
+                            <DayOption value="Sat">토요일</DayOption>
+                        </DaySelect>
+                        <FormSpan>에 할일 :</FormSpan>
+                        <InputBox>
+                            <ToDoInput
+                                {...register("todoText", { required: "ERROR : 추가할 내용을 적어주세요!" })}
+                                placeholder="여기에 적어주세요~"
+                                type="text"
                             />
-                        ))}
-                    </Weekly>
-                </DragDropContext>
-            </Container>
-        </>
+                            <ErrorMsg>{errors?.todoText?.message}</ErrorMsg>
+                        </InputBox>
+                        <AddBtn
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.8 }}
+                        >
+                            추가
+                        </AddBtn>
+                    </Form>
+                    <Droppable droppableId="delete">
+                        {(provided) => (
+                            <TrashBin
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                            >
+                                <img
+                                    src={trashBinImg}
+                                    alt="trashBin"
+                                />
+                            </TrashBin>
+                        )}
+                    </Droppable>
+                </FormBox>
+                <DelMsg>ToDo를 삭제하려면 쓰레기통 이미지 위로 드레그 해주세요!!</DelMsg>
+                <Weekly>
+                    {Object.keys(toDos).map((boardId) => (
+                        <WeekBoard
+                            key={boardId}
+                            toDos={toDos[boardId]}
+                            boardId={boardId}
+                        />
+                    ))}
+                </Weekly>
+            </DragDropContext>
+        </Container>
     );
 }
 
-export default App;
+export default WeeklyScheduler;

@@ -17,7 +17,7 @@ const BoardTitle = styled.div`
     width: 100%;
     background-color: transparent;
     color: ${(props) => props.theme.boardText};
-    border-bottom: 2px solid ${(props) => props.theme.boardText};
+    border-bottom: 2px solid ${(props) => props.theme.bodyBg};
     text-align: center;
     font-size: 20px;
     font-weight: 600;
