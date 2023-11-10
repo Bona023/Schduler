@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import errorImg from "../image/error404.png";
+import { Helmet } from "react-helmet";
 
 const Wrapper = styled.div`
     width: 100vw;
@@ -16,12 +17,17 @@ const ErrorPage = styled.img`
 
 function NotFound() {
     return (
-        <Wrapper>
-            <ErrorPage
-                src={errorImg}
-                alt="404_ERROR"
-            />
-        </Wrapper>
+        <>
+            <Helmet>
+                <title>ERROR!</title>
+            </Helmet>
+            <Wrapper>
+                <ErrorPage
+                    src={errorImg}
+                    alt="404_ERROR"
+                />
+            </Wrapper>
+        </>
     );
 }
 

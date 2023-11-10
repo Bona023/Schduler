@@ -62,6 +62,9 @@ function Header() {
         <NavBox>
             <LinkBar>
                 <LinkBox>
+                    <StyledLink to={"/"}>Home</StyledLink>
+                </LinkBox>
+                <LinkBox>
                     <StyledLink to={"today"}>Today</StyledLink>
                 </LinkBox>
                 <LinkBox>

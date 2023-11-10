@@ -7,6 +7,7 @@ import WeekBoard from "../components/WeekBoard";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import trashBinImg from "../image/trashbin.png";
+import { Helmet } from "react-helmet";
 
 export const Container = styled.div`
     display: flex;
@@ -36,7 +37,7 @@ const FormBox = styled.div`
     align-items: center;
 `;
 const TrashBin = styled.div`
-    width: 80px;
+    width: 180px;
     height: 80px;
     margin-left: 150px;
     text-align: center;
@@ -96,10 +97,9 @@ const ToDoInput = styled.input`
         color: #808e9b;
     }
 `;
-const AddBtn = styled(motion.button)`
-    width: 55px;
+const StyledBtn = styled(motion.button)`
     height: 32px;
-    padding: 3px 0;
+    padding: 3px 10px;
     line-height: 1;
     border: none;
     border-radius: 10px;
@@ -124,12 +124,18 @@ const ErrorMsg = styled.span`
     font-weight: 600;
     line-height: 1.5;
 `;
+const DelBox = styled.div`
+    width: 1250px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+`;
 const DelMsg = styled.span`
     color: ${(props) => props.theme.titleText};
     font-size: 20px;
     font-weight: 500;
-    margin-left: 800px;
-    margin-top: 15px;
+    line-height: 1.5;
 `;
 
 interface IToDoForm {
@@ -199,63 +205,90 @@ function WeeklyScheduler() {
         });
         setValue("todoText", "");
     };
+    const deleteAll = () => {
+        setToDos((allBoards) => {
+            return {
+                Sun: [],
+                Mon: [],
+                Tue: [],
+                Wen: [],
+                Thu: [],
+                Fri: [],
+                Sat: [],
+            };
+        });
+    };
     return (
-        <Container>
-            <Title>Weekly Scheduler</Title>
-            <DragDropContext onDragEnd={dragEnd}>
-                <FormBox>
-                    <Form onSubmit={handleSubmit(onValid)}>
-                        <DaySelect {...register("day")}>
-                            <DayOption value="Sun">일요일</DayOption>
-                            <DayOption value="Mon">월요일</DayOption>
-                            <DayOption value="Tue">화요일</DayOption>
-                            <DayOption value="Wen">수요일</DayOption>
-                            <DayOption value="Thu">목요일</DayOption>
-                            <DayOption value="Fri">금요일</DayOption>
-                            <DayOption value="Sat">토요일</DayOption>
-                        </DaySelect>
-                        <FormSpan>에 할일 :</FormSpan>
-                        <InputBox>
-                            <ToDoInput
-                                {...register("todoText", { required: "ERROR : 추가할 내용을 적어주세요!" })}
-                                placeholder="여기에 적어주세요~"
-                                type="text"
-                            />
-                            <ErrorMsg>{errors?.todoText?.message}</ErrorMsg>
-                        </InputBox>
-                        <AddBtn
+        <>
+            <Helmet>
+                <title>Weekly</title>
+            </Helmet>
+            <Container>
+                <Title>Weekly Scheduler</Title>
+                <DragDropContext onDragEnd={dragEnd}>
+                    <FormBox>
+                        <Form onSubmit={handleSubmit(onValid)}>
+                            <DaySelect {...register("day")}>
+                                <DayOption value="Sun">일요일</DayOption>
+                                <DayOption value="Mon">월요일</DayOption>
+                                <DayOption value="Tue">화요일</DayOption>
+                                <DayOption value="Wen">수요일</DayOption>
+                                <DayOption value="Thu">목요일</DayOption>
+                                <DayOption value="Fri">금요일</DayOption>
+                                <DayOption value="Sat">토요일</DayOption>
+                            </DaySelect>
+                            <FormSpan>에 할일 :</FormSpan>
+                            <InputBox>
+                                <ToDoInput
+                                    {...register("todoText", { required: "ERROR : 추가할 내용을 적어주세요!" })}
+                                    placeholder="여기에 적어주세요~"
+                                    type="text"
+                                />
+                                <ErrorMsg>{errors?.todoText?.message}</ErrorMsg>
+                            </InputBox>
+                            <StyledBtn
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.8 }}
+                            >
+                                추가
+                            </StyledBtn>
+                        </Form>
+                        <Droppable droppableId="delete">
+                            {(provided) => (
+                                <TrashBin
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
+                                    <img
+                                        src={trashBinImg}
+                                        alt="trashBin"
+                                    />
+                                </TrashBin>
+                            )}
+                        </Droppable>
+                    </FormBox>
+                    <DelBox>
+                        <StyledBtn
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.8 }}
+                            onClick={deleteAll}
                         >
-                            추가
-                        </AddBtn>
-                    </Form>
-                    <Droppable droppableId="delete">
-                        {(provided) => (
-                            <TrashBin
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                            >
-                                <img
-                                    src={trashBinImg}
-                                    alt="trashBin"
-                                />
-                            </TrashBin>
-                        )}
-                    </Droppable>
-                </FormBox>
-                <DelMsg>ToDo를 삭제하려면 쓰레기통 이미지 위로 드레그 해주세요!!</DelMsg>
-                <Weekly>
-                    {Object.keys(toDos).map((boardId) => (
-                        <WeekBoard
-                            key={boardId}
-                            toDos={toDos[boardId]}
-                            boardId={boardId}
-                        />
-                    ))}
-                </Weekly>
-            </DragDropContext>
-        </Container>
+                            전체삭제
+                        </StyledBtn>
+                        <DelMsg>ToDo를 삭제하려면 쓰레기통 이미지 위로 드레그 해주세요!!</DelMsg>
+                    </DelBox>
+                    <Weekly>
+                        {Object.keys(toDos).map((boardId) => (
+                            <WeekBoard
+                                key={boardId}
+                                toDos={toDos[boardId]}
+                                boardId={boardId}
+                            />
+                        ))}
+                    </Weekly>
+                </DragDropContext>
+            </Container>
+        </>
     );
 }
 
